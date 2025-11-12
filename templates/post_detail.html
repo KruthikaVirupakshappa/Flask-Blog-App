@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} • Flask Blog{% endblock %}
+{% block content %}
+  <article class="post">
+    <h1>{{ post.title }}</h1>
+    <p class="meta">
+      {{ post.created_at.strftime("%b %d, %Y %I:%M %p") }}
+      {% if post.updated_at and post.updated_at != post.created_at %} • updated{% endif %}
+    </p>
+    <div class="content">{{ post.content | replace('\n', '<br>') | safe }}</div>
+
+    <div class="actions">
+      <a class="btn" href="{{ url_for('edit', post_id=post.id) }}">Edit</a>
+      <form action="{{ url_for('delete', post_id=post.id) }}" method="post" onsubmit="return confirm('Delete this post?');" style="display:inline;">
+        <button class="btn danger" type="submit">Delete</button>
+      </form>
+    </div>
+  </article>
+{% endblock %}

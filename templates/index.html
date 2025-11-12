@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}All Posts • Flask Blog{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div>
+    <h2>Welcome to your blog</h2>
+    <p class="muted">Write, edit, and share thoughts. Your latest posts appear below.</p>
+  </div>
+  <div class="hero-actions">
+    <form class="search" method="get" action="{{ url_for('home') }}">
+      <input type="text" name="q" placeholder="Search posts…" aria-label="Search posts" />
+      <button type="submit">Search</button>
+    </form>
+    <a class="btn primary" href="{{ url_for('create') }}">+ New Post</a>
+  </div>
+</section>
+
+{% if posts %}
+  <ul class="grid">
+    {% for post in posts %}
+      <li class="card">
+        <a class="card-title" href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+        <p class="card-meta">
+          {{ post.created_at.strftime("%b %d, %Y") }}
+          {% if post.updated_at and post.updated_at != post.created_at %} • updated{% endif %}
+        </p>
+        <p class="card-excerpt">
+          {{ post.content|striptags|truncate(160, True, '…') }}
+        </p>
+        <div class="card-actions">
+          <a class="link" href="{{ url_for('post_detail', post_id=post.id) }}">Read more →</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty">
+    <h3>No posts yet</h3>
+    <p class="muted">Start your blog by creating the first post.</p>
+    <a class="btn primary" href="{{ url_for('create') }}">Create a Post</a>
+  </div>
+{% endif %}
+
+{% endblock %}

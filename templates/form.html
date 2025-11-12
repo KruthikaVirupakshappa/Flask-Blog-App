@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'Create' }} Post • Flask Blog{% endblock %}
+{% block content %}
+
+<h1 style="margin:0 0 12px">{{ 'Edit' if mode == 'edit' else 'Create' }} Post</h1>
+
+<form method="post">
+  <label style="display:block; margin: 0 0 8px;">
+    <div style="font-weight:600; margin-bottom:6px;">Title</div>
+    <input
+      type="text"
+      name="title"
+      required
+      value="{{ post.title if post else '' }}"
+      style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;"
+      placeholder="A short, clear title"
+    />
+  </label>
+
+  <label style="display:block; margin: 12px 0;">
+    <div style="font-weight:600; margin-bottom:6px;">Content</div>
+    <textarea
+      name="content"
+      rows="12"
+      required
+      style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; resize:vertical;"
+      placeholder="Write your post…"
+    >{{ post.content if post else '' }}</textarea>
+  </label>
+
+  <div style="display:flex; gap:8px; margin-top:8px;">
+    <button type="submit" style="padding:8px 14px; border:1px solid #e5e7eb; border-radius:8px; background:#2563eb; color:#fff;">
+      {{ 'Save Changes' if mode == 'edit' else 'Publish' }}
+    </button>
+    <a href="{{ url_for('home') }}" style="padding:8px 14px; border:1px solid #e5e7eb; border-radius:8px; text-decoration:none; color:#2563eb; background:#f8fafc;">
+      Cancel
+    </a>
+  </div>
+</form>
+
+{% endblock %}
